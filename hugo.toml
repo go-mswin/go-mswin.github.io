@@ -1,0 +1,32 @@
+baseURL = "https://go-mswin.github.io/"
+title = "go-mswin"
+disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[params]
+  subtitle = "the Windows API from Go, the peer of go-macos/objc"
+  description = "Calling the Windows API from Go on 64-bit Windows (amd64 + arm64), built on golang.org/x/sys/windows with no cgo: win32 provides the shared surface, winrt adds only what the reference WinRT projection does not, without reimplementing it."
+  tagline = "The Windows API from Go — the deliberate peer of <a href=\"https://github.com/go-macos/objc\">go-macos/objc</a>, so a cross-platform program talks to two libraries built the same way."
+  pills = ["64-bit Windows: amd64 + arm64", "golang.org/x/sys/windows", "no cgo", "BSD-3-Clause"]
+  primary_role = "foundation"
+  leads = [
+    "“win32” is the <strong>name of the Windows API</strong>, not a bitness — there is no separate “Win64 API”. These target 64-bit Windows, amd64 and arm64.",
+    "<strong>Reference libraries, not re-implementations.</strong> <code>winrt</code> does not reimplement WinRT: <code>RoInitialize</code> and <code>RoGetActivationFactory</code> come from the reference projection, and this module adds only what is missing around it. Same rule as everywhere else in the fleet."
+  ]
+  principles = "The reason this org exists at all is symmetry: go-macos/objc gave the fleet's CGO-free macOS code one shared home instead of per-repo copies, and the Windows side deserved the same rather than a pile of hand-rolled syscalls."
+
+[[params.repos]]
+  name = "win32"
+  role = "foundation"
+  reach = "golang.org/x/sys/windows, no cgo"
+  gomod = true
+  result = "The shared Windows API surface the fleet's Windows code would otherwise re-declare per repository."
+[[params.repos]]
+  name = "winrt"
+  role = "extension"
+  reach = "saltosystems/winrt-go + the missing pieces"
+  gomod = true
+  result = "Activation and initialisation through the <strong>reference WinRT projection</strong>, plus only what that projection leaves out."
+  note = "Deliberately thin: the value is in not having a second WinRT implementation to keep correct."
