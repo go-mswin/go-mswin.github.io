@@ -30,3 +30,10 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
   gomod = true
   result = "Activation and initialisation through the <strong>reference WinRT projection</strong>, plus only what that projection leaves out."
   note = "Deliberately thin: the value is in not having a second WinRT implementation to keep correct."
+[[params.repos]]
+  name = "screencapture"
+  role = "capture"
+  reach = "DXGI Desktop Duplication + GDI BitBlt, through go-mswin/win32"
+  gomod = true
+  result = "Display and window capture as borrowed BGRA frames, allocation-free per frame. Two backends behind one API: DXGI Desktop Duplication where it is available, GDI <code>BitBlt</code> everywhere else and for occluded windows through <code>PrintWindow(PW_RENDERFULLCONTENT)</code>."
+  note = "Its proof record is checkable rather than asserted: a GDI capture and a duplication capture each matched QEMU's own independent <code>screendump</code> of the framebuffer in <strong>0 of 480000 pixels</strong>, and CI re-runs the comparison so the record cannot drift from the files. What it has NOT proven — the GPU duplication path, a real 4K read-back, multi-monitor — is listed just as plainly."
