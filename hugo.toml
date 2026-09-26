@@ -37,3 +37,15 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
   gomod = true
   result = "Display and window capture as borrowed BGRA frames, allocation-free per frame. Two backends behind one API: DXGI Desktop Duplication where it is available, GDI <code>BitBlt</code> everywhere else and for occluded windows through <code>PrintWindow(PW_RENDERFULLCONTENT)</code>."
   note = "Its proof record is checkable rather than asserted: a GDI capture and a duplication capture each matched QEMU's own independent <code>screendump</code> of the framebuffer in <strong>0 of 480000 pixels</strong>, and CI re-runs the comparison so the record cannot drift from the files. What it has NOT proven — the GPU duplication path, a real 4K read-back, multi-monitor — is listed just as plainly."
+[[params.repos]]
+  name = "webauthn"
+  role = "extension"
+  reach = "webauthn.dll — the API browsers use, no cgo and no SDK"
+  gomod = true
+  result = "Asks Windows to authenticate somebody with a security key: <code>Assert</code> takes the relying-party id, a fresh challenge and the credentials to allow, and answers with what actually responded (<code>a.Transport</code> — \"usb\"). It is deliberately <strong>not</strong> a CTAP transport: since Windows 1903 raw FIDO HID needs elevation, so going through webauthn.dll is what lets an ordinary user log in at all."
+[[params.repos]]
+  name = "factors"
+  role = "extension"
+  reach = "go-authn/mfa — an mfa.Factor a policy can ask for"
+  gomod = true
+  result = "Windows's authentication factors as <code>mfa.Factor</code> values, so a policy asks for two of them without knowing which Windows API answers. The two come from two different packages, which is the shape of Windows: winrt asks Windows Hello through <code>UserConsentVerifier</code>, webauthn asks a security key through <code>webauthn.dll</code>. Neither binding knows what a policy is, and a program that only wants a Hello prompt does not end up importing the other."
