@@ -47,7 +47,7 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
   role = "extension"
   reach = "webauthn.dll — the API browsers use, no cgo and no SDK"
   gomod = true
-  result = "Asks Windows to authenticate somebody with a security key: <code>Assert</code> takes the relying-party id, a fresh challenge and the credentials to allow, and answers with what actually responded (<code>a.Transport</code> — \"usb\"). It is deliberately <strong>not</strong> a CTAP transport: since Windows 1903 raw FIDO HID needs elevation, so going through webauthn.dll is what lets an ordinary user log in at all."
+  result = "Asks Windows to authenticate somebody with a security key: <code>Assert</code> takes the relying-party id, a fresh challenge and the credentials to allow, and answers with what actually responded (<code>a.Transport</code> — \"usb\"). It is deliberately <strong>not</strong> a CTAP transport: since Windows 1903 raw FIDO HID needs elevation, so going through webauthn.dll is what lets an ordinary user log in at all. Since v0.5.0 it also carries the <code>hmac-secret</code> and <code>credProtect</code> extensions (used by theca for FIDO2 on Windows); the struct layouts are verified on Windows, a call against a real key is not."
 [[params.repos]]
   name = "factors"
   role = "extension"
